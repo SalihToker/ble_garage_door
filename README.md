@@ -12,7 +12,7 @@ My goal was to grasp the logic of sending commands to physical hardware via Blue
 ## Circuit Diagram
 When setting up the connections, I used a simple voltage divider to safely step down the signal to the 3.3V logic level required by the HM-10 module's RX pin. You can see the circuit diagram of the project below:
 
-![Circuit Diagram](devre_semasi/garajj.png)
+![Circuit Diagram](devre_semasi/garajjj.png)
 
 ## Technologies Used
 * **Software:** Flutter, Dart, C++ (Arduino IDE)
