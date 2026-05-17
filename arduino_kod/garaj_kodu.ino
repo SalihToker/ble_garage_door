@@ -9,6 +9,7 @@ Servo garajMotoru;
 const int yesilLed = 4;
 const int kirmiziLed = 5;
 const int motorPini = 9;
+const int dogruSifre = 1234;
 
 void setup() {
   Serial.begin(9600);
@@ -29,23 +30,28 @@ void setup() {
 
 void loop() {
   if (btModule.available()) {
-    char gelenVeri = btModule.read();
+    String gelenVeri = btModule.readStringUntil('\n');
     Serial.print("Gelen Komut: ");
     Serial.println(gelenVeri);
 
-    // EĞER TELEFONDAN 'A' KOMUTU GELİRSE (AÇ)
-    if (gelenVeri == 'A') {
-      garajMotoru.write(90); // Motoru 90 dereceye çevir (Kapı kalksın)
-      digitalWrite(yesilLed, HIGH); // Yeşil LED'i yak
-      digitalWrite(kirmiziLed, LOW); // Kırmızı LED'i söndür
-      Serial.println("Garaj Kapisi Acildi!");
-    } 
-    // EĞER TELEFONDAN 'K' KOMUTU GELİRSE (KAPAT)
-    else if (gelenVeri == 'K') {
-      garajMotoru.write(0);  // Motoru eski haline (0 derece) getir
-      digitalWrite(yesilLed, LOW); // Yeşil LED'i söndür
-      digitalWrite(kirmiziLed, HIGH); // Kırmızı LED'i yak
-      Serial.println("Garaj Kapisi Kapatildi!");
+    char gelenKomut= gelenVeri.charAt(0);
+    int gelenSifre = gelenVeri.substring(1).toInt();
+
+    if(gelenSifre == dogruSifre){
+      // EĞER TELEFONDAN 'A' KOMUTU GELİRSE (AÇ)
+      if (gelenKomut == 'A') {
+        garajMotoru.write(90); // Motoru 90 dereceye çevir (Kapı kalksın)
+        digitalWrite(yesilLed, HIGH); // Yeşil LED'i yak
+        digitalWrite(kirmiziLed, LOW); // Kırmızı LED'i söndür
+        Serial.println("Garaj Kapisi Acildi!");
+      } 
+      // EĞER TELEFONDAN 'K' KOMUTU GELİRSE (KAPAT)
+      else if (gelenKomut == 'K') {
+        garajMotoru.write(0);  // Motoru eski haline (0 derece) getir
+        digitalWrite(yesilLed, LOW); // Yeşil LED'i söndür
+        digitalWrite(kirmiziLed, HIGH); // Kırmızı LED'i yak
+        Serial.println("Garaj Kapisi Kapatildi!");
+      }
     }
   }
 }
