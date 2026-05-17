@@ -9,7 +9,7 @@ void main() {
 }
 
 class GarajUygulamasi extends StatelessWidget {
-  const GarajUygulamasi({Key? key}) : super(key: key);
+  const GarajUygulamasi({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class GarajUygulamasi extends StatelessWidget {
 }
 
 class KontrolEkrani extends StatefulWidget {
-  const KontrolEkrani({Key? key}) : super(key: key);
+  const KontrolEkrani({super.key});
 
   @override
   _KontrolEkraniState createState() => _KontrolEkraniState();
@@ -160,7 +160,6 @@ class _KontrolEkraniState extends State<KontrolEkrani> {
   // Şifre Sorma Penceresi
   Future<void> _sifreSor(BuildContext context, String komut) async {
     TextEditingController sifreController = TextEditingController();
-    String dogruSifre = "1234"; // GARAJ ŞİFRESİNİ BURADAN BELİRLEYEBİLİRSİN
 
     return showDialog(
       context: context,
@@ -186,21 +185,8 @@ class _KontrolEkraniState extends State<KontrolEkrani> {
               style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
               child: const Text("Onayla", style: TextStyle(color: Colors.white)),
               onPressed: () {
-                // Şifre kontrolü burada yapılıyor
-                if (sifreController.text == dogruSifre) {
-                  Navigator.pop(context); // Pencereyi kapat
-                  _komutGonder(komut); // Şifre doğruysa komutu Arduino'ya yolla!
-                } else {
-                  Navigator.pop(context); // Pencereyi kapat
-                  // Yanlış şifre uyarısı göster
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Hatalı Şifre! Erişim Reddedildi."),
-                      backgroundColor: Colors.red,
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
-                }
+                Navigator.pop(context); // Pencereyi kapat
+                _komutGonder(komut+sifreController.text); // Şifre doğruysa komutu Arduino'ya yolla!
               },
             ),
           ],
